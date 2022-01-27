@@ -12,4 +12,86 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Project Info
 #### **GitHub user name**: Wuris
 #### **Date**: 2022/1/26
-#### **GitHub Link**: https://github.com/Wuris/Biol432_A3.git
+#### **GitHub Link**: https://github.com/Wuris/Biol432_Assignment3.git
+
+### Load the FallopiaData.csv
+```{r}
+setwd("E:/Underguaduate/4th Fourth year/BIOL 432/Week 3/Biol432_Assignment3")
+A3Data <- read.csv("InputData/FallopiaData.csv")
+```
+
+### Load some packages
+```{r}
+library(dplyr)
+```
+
+### Remove rows with ‘Total’ biomass < 60
+```{r}
+A3Data_New <- A3Data %>%
+  filter(Total < 60)
+```
+
+### Reorder the columns so that they are in the order: ‘Total’, ‘Taxon’, ‘Scenario’, ‘Nutrients’, and remove the other columns
+```{r}
+A3Data_New <- A3Data_New %>% 
+  select(Total, Taxon, Scenario, Nutrients)
+```
+
+### Make a new column TotalG, which converts the ‘Total’ column from mg to grams AND replace Total with TotalG, and add it to the dataset.
+```{r}
+A3Data_New$TotalG = A3Data_New$Total*0.001
+
+A3Data_New <- A3Data_New %>% 
+  select(TotalG, Taxon, Scenario, Nutrients)
+```
+
+### Write a custom function that will take two inputs from the user: 1. a vector of data to process (e.g. column from a data.frame object) and 2. a string that defines what calculation to perform.
+#### if string #2 is "Average" then calculate the average value for the column named in vector #1
+#### if string #2 is "Sum" then calculate the sum of values for the column named in vector #1
+#### if string #2 is "Observations" then count the number of observed values for the column named in vector #1
+#### if string #2 is anything else, then output an error to the user 
+```{r}
+my_custom_function <- function(x, y){
+  if(y == "Average"){
+    return(mean(x))
+  } else if(y == "Sum"){
+    return(sum(x))
+  } else if(y == "Observations"){
+    return(length(x))
+  } else {
+    return(print("Error!"))
+  }
+}
+```
+
+### Write some R code that uses your function to count the total number of observations in the 'Taxon' column.
+```{r}
+my_custom_function(A3Data_New$Taxon, "Observations")
+```
+
+### Write some R code that uses your function to calculate the average TotalG for each of the two Nutrient concentrations.
+```{r}
+A3Data_New %>% 
+  group_by(Nutrients) %>% 
+  summarise(Average = my_custom_function(TotalG, "Average"))
+```
+
+### Write (i.e. save) the new data to a file called "WrangledData.csv" in the Output folder. 
+```{r}
+write.csv(A3Data_New, "./Output/WrangledData.csv") 
+```
+
+### Test your script for errors
+```{r}
+Test <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+
+my_custom_function(Test, "Average")
+
+my_custom_function(Test, "Sum")
+
+my_custom_function(Test, "Observations")
+
+my_custom_function(Test, "Anything else, for error")
+
+```
+
