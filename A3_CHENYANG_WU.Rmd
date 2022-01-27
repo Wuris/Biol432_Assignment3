@@ -2,7 +2,9 @@
 title: "Biol 432 Assignment 3"
 author: "Chenyang Wu"
 date: "2022/1/26"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +30,7 @@ library(dplyr)
 ### Remove rows with ‘Total’ biomass < 60
 ```{r}
 A3Data_New <- A3Data %>%
-  filter(Total < 60)
+  filter(Total >= 60)
 ```
 
 ### Reorder the columns so that they are in the order: ‘Total’, ‘Taxon’, ‘Scenario’, ‘Nutrients’, and remove the other columns
