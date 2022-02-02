@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Project Info
 #### **GitHub user name**: Wuris
 #### **Date**: 2022/1/26
-#### **GitHub Link**: https://github.com/Wuris/Biol432_Assignment3.git
+#### **GitHub Link**: https://github.com/Wuris/Biol432_Assignments.git
 
 ### Load the FallopiaData.csv
 ```{r}
